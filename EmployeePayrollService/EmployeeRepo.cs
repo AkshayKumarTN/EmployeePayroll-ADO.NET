@@ -32,13 +32,13 @@ namespace EmployeePayrollService
                             model.BasicPay = Convert.ToDecimal(dr["Salary"]);
                             model.StartDate = dr.GetDateTime(3);
                             model.Gender = dr["Gender"].ToString();
-                            model.PhoneNumber = dr["phone_number"].ToString();
-                            model.Address = dr["address"].ToString();
-                            model.Department = dr["department"].ToString();
-                            model.Deductions = Convert.ToDecimal(dr["deduction"]);
-                            model.TaxablePay = Convert.ToDecimal(dr["taxable_pay"]);
-                            model.Tax = Convert.ToDecimal(dr["income_tax"]);
-                            model.NetPay = Convert.ToDecimal(dr["net_pay"]);
+                            model.PhoneNumber = dr["PhoneNumber"].ToString();
+                            model.Address = dr["Address"].ToString();
+                            model.Department = dr["Department"].ToString();
+                            model.Deductions = Convert.ToDecimal(dr["Deduction"]);
+                            model.TaxablePay = Convert.ToDecimal(dr["TaxablePay"]);
+                            model.Tax = Convert.ToDecimal(dr["IncomeTax"]);
+                            model.NetPay = Convert.ToDecimal(dr["NetPay"]);
                             Console.WriteLine(model.EmployeeName + " " + model.BasicPay + " " + model.StartDate + " " + model.Gender + " " + model.PhoneNumber + " " + model.Address + " " + model.Department + " " + model.Deductions + " " + model.TaxablePay + " " + model.Tax + " " + model.NetPay);
                             Console.WriteLine("\n");
                         }
@@ -63,7 +63,7 @@ namespace EmployeePayrollService
             {
                 using (this.connection)
                 {
-                    string query = @"update employee_payroll set Salary=3000000 where name='Terisa'";
+                    string query = @"update employee_payroll set Salary=3000000 where Name='Terisa'";
                     SqlCommand command = new SqlCommand(query, this.connection);
                     this.connection.Open();
                     int result = command.ExecuteNonQuery();
@@ -134,7 +134,7 @@ namespace EmployeePayrollService
                 using (this.connection)
                 {
                     // Retrieving all employee Data who have joined in a particular data range from the payroll service database..........
-                    string query = @"select * from employee_payroll where start_Date between('2017-01-01') and getdate()";
+                    string query = @"select * from employee_payroll where StartDate between('2017-01-01') and getdate()";
                     SqlCommand cmd = new SqlCommand(query, this.connection);
                     this.connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
@@ -147,13 +147,13 @@ namespace EmployeePayrollService
                             model.BasicPay = Convert.ToDecimal(dr["Salary"]);
                             model.StartDate = dr.GetDateTime(3);
                             model.Gender = dr["Gender"].ToString();
-                            model.PhoneNumber = dr["phone_number"].ToString();
-                            model.Address = dr["address"].ToString();
-                            model.Department = dr["department"].ToString();
-                            model.Deductions = Convert.ToDecimal(dr["deduction"]);
-                            model.TaxablePay = Convert.ToDecimal(dr["taxable_pay"]);
-                            model.Tax = Convert.ToDecimal(dr["income_tax"]);
-                            model.NetPay = Convert.ToDecimal(dr["net_pay"]);
+                            model.PhoneNumber = dr["PhoneNumber"].ToString();
+                            model.Address = dr["Address"].ToString();
+                            model.Department = dr["Department"].ToString();
+                            model.Deductions = Convert.ToDecimal(dr["Deduction"]);
+                            model.TaxablePay = Convert.ToDecimal(dr["TaxablePay"]);
+                            model.Tax = Convert.ToDecimal(dr["IncomeTax"]);
+                            model.NetPay = Convert.ToDecimal(dr["NetPay"]);
                             Console.WriteLine(model.EmployeeName + " " + model.BasicPay + " " + model.StartDate + " " + model.Gender + " " + model.PhoneNumber + " " + model.Address + " " + model.Department + " " + model.Deductions + " " + model.TaxablePay + " " + model.Tax + " " + model.NetPay);
                             Console.WriteLine("\n");
                         }
