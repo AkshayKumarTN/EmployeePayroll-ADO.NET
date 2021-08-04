@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
 namespace EmployeePayrollService
 {
-    class EmployeeRepo
+    public class EmployeeRepo
     {
         public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=payroll_service;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
@@ -56,7 +57,7 @@ namespace EmployeePayrollService
             }
         }
 
-        public void UpdateSalary(EmployeeModel model)
+        public int UpdateSalary(EmployeeModel model)
         {
             try
             {
@@ -75,13 +76,55 @@ namespace EmployeePayrollService
                         Console.WriteLine("Unsuccessfull");
                     }
                     this.connection.Close();
+                    return result;
                 }
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return default;
             }
         
         }
+        public int UpdateSalaryUsingPreparedStatement(EmployeeModel model)
+        {
+            int result;
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand("dbo.UpdateEmployeeDetails", this.connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("Id", model.EmployeeID);
+                    command.Parameters.AddWithValue("Name", model.EmployeeName);
+                    command.Parameters.AddWithValue("Salary", model.BasicPay);
+                    connection.Open();
+                    result = command.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        Console.WriteLine("Updated Successfully using Prepared Statement ");
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not Updated!!!");
+                        return default;
+                    }
+
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return default;
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
     }
 }
