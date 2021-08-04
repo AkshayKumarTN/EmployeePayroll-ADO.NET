@@ -8,6 +8,8 @@ namespace EmployeePayrollService
         {
             Console.WriteLine("Employee Payroll Service \n");
             EmployeeRepo repo = new EmployeeRepo();
+            EmployeeModel model = new EmployeeModel();
+            repo.UpdateSalary(model);
             repo.GetAllEmployee();
         }
     }

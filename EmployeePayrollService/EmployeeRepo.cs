@@ -12,6 +12,7 @@ namespace EmployeePayrollService
 
         public void GetAllEmployee()
         {
+
             try
             {
                 EmployeeModel model = new EmployeeModel();
@@ -45,12 +46,42 @@ namespace EmployeePayrollService
                     {
                         Console.WriteLine("No data found");
                     }
+
+                    this.connection.Close();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        public void UpdateSalary(EmployeeModel model)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    string query = @"update employee_payroll set Salary=3000000 where name='Terisa'";
+                    SqlCommand command = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        Console.WriteLine("Salary Updated Successfully ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Unsuccessfull");
+                    }
+                    this.connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        
         }
     }
 }
