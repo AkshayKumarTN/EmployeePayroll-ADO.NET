@@ -133,6 +133,7 @@ namespace EmployeePayrollService
                 EmployeeModel model = new EmployeeModel();
                 using (this.connection)
                 {
+                    // Retrieving all employee Data who have joined in a particular data range from the payroll service database..........
                     string query = @"select * from employee_payroll where start_Date between('2017-01-01') and getdate()";
                     SqlCommand cmd = new SqlCommand(query, this.connection);
                     this.connection.Open();
@@ -168,6 +169,45 @@ namespace EmployeePayrollService
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        public void PerformAggregateFunctions()
+        {
+            string result = null;
+            try
+            {
+                // find sum, average, min, max and number of male and female employees.......
+                string query = @"select sum(Salary) as TotalSalary,min(Salary) as MinSalary,max(Salary) as MaxSalary,Round(avg(Salary),0) as AvgSalary,Gender,Count(*) from employee_payroll group by Gender";
+                SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                Console.WriteLine("-----------------------------------------------------");
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine("Total Salary : {0}", reader[0]);
+                        Console.WriteLine("Min Salary : {0}", reader[1]);
+                        Console.WriteLine("Max Salary : {0}", reader[2]);
+                        Console.WriteLine("Average Salary : {0}", reader[3]);
+                        Console.WriteLine("Grouped By Gender : {0}", reader[4]);
+                        Console.WriteLine("No of employess : {0}", reader[5]);
+                        result += reader[4] + " " + reader[0] + " " + reader[1] + " " + reader[2] + " " + reader[3] + " " + reader[5];
+                        Console.WriteLine("-----------------------------------------------------");
+
+                    }
+                }
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                this.connection.Close();
             }
         }
     }

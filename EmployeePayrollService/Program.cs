@@ -8,7 +8,7 @@ namespace EmployeePayrollService
         {
             Console.WriteLine("Employee Payroll Service \n");
             EmployeeRepo repo = new EmployeeRepo();
-            repo.RetrieveDataBasedOnDateRange();
+            repo.PerformAggregateFunctions();
         }
     }
 }
