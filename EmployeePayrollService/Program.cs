@@ -6,7 +6,9 @@ namespace EmployeePayrollService
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Employee Payroll Service ");
+            Console.WriteLine("Employee Payroll Service \n");
+            EmployeeRepo repo = new EmployeeRepo();
+            repo.GetAllEmployee();
         }
     }
 }
