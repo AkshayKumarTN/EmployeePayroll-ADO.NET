@@ -78,14 +78,14 @@ namespace EmployeePayrollService
                     this.connection.Close();
                     return result;
                 }
-                
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return default;
             }
-        
+
         }
         public int UpdateSalaryUsingPreparedStatement(EmployeeModel model)
         {
@@ -126,5 +126,49 @@ namespace EmployeePayrollService
             }
         }
 
+        public void RetrieveDataBasedOnDateRange()
+        {
+            try
+            {
+                EmployeeModel model = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select * from employee_payroll where start_Date between('2017-01-01') and getdate()";
+                    SqlCommand cmd = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            model.EmployeeID = Convert.ToInt32(dr["Id"]);
+                            model.EmployeeName = dr["Name"].ToString();
+                            model.BasicPay = Convert.ToDecimal(dr["Salary"]);
+                            model.StartDate = dr.GetDateTime(3);
+                            model.Gender = dr["Gender"].ToString();
+                            model.PhoneNumber = dr["phone_number"].ToString();
+                            model.Address = dr["address"].ToString();
+                            model.Department = dr["department"].ToString();
+                            model.Deductions = Convert.ToDecimal(dr["deduction"]);
+                            model.TaxablePay = Convert.ToDecimal(dr["taxable_pay"]);
+                            model.Tax = Convert.ToDecimal(dr["income_tax"]);
+                            model.NetPay = Convert.ToDecimal(dr["net_pay"]);
+                            Console.WriteLine(model.EmployeeName + " " + model.BasicPay + " " + model.StartDate + " " + model.Gender + " " + model.PhoneNumber + " " + model.Address + " " + model.Department + " " + model.Deductions + " " + model.TaxablePay + " " + model.Tax + " " + model.NetPay);
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+
+                    this.connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
     }
 }
