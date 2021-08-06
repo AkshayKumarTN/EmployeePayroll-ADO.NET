@@ -254,5 +254,37 @@ namespace EmployeePayrollService
             }
             return false;
         }
+
+        // Method to Remove Employee From DataBase .................
+        public bool RemoveEmployee(int employeeID)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("spRemoveEmployee", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Id", employeeID);
+
+                    this.connection.Open();
+                    var result = sqlCommand.ExecuteNonQuery();
+                    this.connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+            return false;
+        }
     }
 }

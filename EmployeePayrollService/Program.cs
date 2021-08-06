@@ -21,7 +21,9 @@ namespace EmployeePayrollService
             employee.TaxablePay= 240000;
             employee.Tax= 4000;
             employee.NetPay= 259000;
-            repo.AddEmployee(employee);
+
+            // Remove Employee From DataBase By Passing EmployeeID.................
+            repo.RemoveEmployee(5);
         }
     }
 }
